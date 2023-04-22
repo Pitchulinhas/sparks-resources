@@ -1,15 +1,17 @@
-version: "3"
+version: "3.9"
 services:
   zookeeper:
     image: "bitnami/zookeeper:latest"
     ports:
-      - "2181:2181"
+      - "${ZOOKEEPER_PORT}:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - kafka-network
   kafka:
     image: "bitnami/kafka:latest"
     ports:
-      - "9092:9092"
+      - "${KAFKA_PORT}:9092"
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
@@ -18,7 +20,15 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+    networks:
+      - kafka-network
     volumes:
       - kafka-data:/bitnami/kafka
+networks:
+  kafka-network:
+    name: sparks-kafka-network
+    external: true
 volumes:
   kafka-data:
+    name: sparks-kafka-data
+    external: true
