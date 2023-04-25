@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  sql-server:
+    container_name: sparks-sql-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    ports:
+      - ${DB_PORT}:1433
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASS}
+    networks: 
+      - sql-server-network
+    volumes:
+      - sql-server-data:/var/opt/mssql/data
+networks:
+  sql-server-network:
+    name: sparks-sql-server-network
+    driver: bridge
+volumes:
+  sql-server-data:
+    name: sparks-sql-server-data

@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  mongo:
+    container_name: sparks-mongo
+    image: "mongo:5"
+    ports:
+      - ${DB_PORT}:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASS}
+    networks: 
+      - mongo-network
+    volumes:
+      - mongo-data:/data/db
+networks:
+  mongo-network:
+    name: sparks-mongo-network
+    driver: bridge
+volumes:
+  mongo-data:
+    name: sparks-mongo-data

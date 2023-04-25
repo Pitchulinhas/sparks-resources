@@ -37,11 +37,9 @@ services:
 networks:
   kafka-network:
     name: sparks-kafka-network
-    external: true
+    driver: bridge
 volumes:
   zookeeper-data:
     name: sparks-zookeeper-data
-    external: true
   kafka-data:
     name: sparks-kafka-data
-    external: true
